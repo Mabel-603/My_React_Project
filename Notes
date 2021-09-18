@@ -1,0 +1,9 @@
+Day 1
+1.在本地新建文件夹,新建github远程库并关联
+2.在本地库执行create-react-app生成脚手架,并精简脚手架
+3.引入antd
+4.yarn add react-app-rewired customize-cra,进行高级配置,新建config-overrides.js文件并配置 
+  yarn add babel-plugin-import 用于按需加载组件代码和样式
+  yarn add less less-loader ,自定义主题,引入customize-cra提供的addLessLoader来帮助加载样式,同时修改config-overrides.js.
+                             注意此时不需要将config-overrides.js中的style改为true,保持style:'css'
+5.开始项目,yarn add react-router-dom                             
