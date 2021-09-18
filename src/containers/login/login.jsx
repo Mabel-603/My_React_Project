@@ -10,6 +10,10 @@ import "./css/login.less"
 
 const {Item} = Form;
 
+@connect(
+  state=>({isLogin:state.userInfo.isLogin}),
+  {saveUserInfo:creteSaveUserInfoAction}
+  )
 class Login extends Component{
 componentDidMount(){
   console.log(this.props);
@@ -109,9 +113,4 @@ pwdValidator=(rule, value)=>{
     }
 }
 
-export default connect(
-state=>({isLogin:state.userInfo.isLogin}),
-{
-  saveUserInfo:creteSaveUserInfoAction
-}
-)(Login)
+export default Login
