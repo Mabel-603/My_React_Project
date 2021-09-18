@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import {connect} from 'react-redux'
 import {creteDemo1Action} from '../../redux/action_creators/test-action'
 
-class Admin extends Component{
+ class Admin extends Component{
   componentDidMount(){
     console.log(this.props);
   }

@@ -7,3 +7,6 @@ Day 1
   yarn add less less-loader ,自定义主题,引入customize-cra提供的addLessLoader来帮助加载样式,同时修改config-overrides.js.
                              注意此时不需要将config-overrides.js中的style改为true,保持style:'css'
 5.开始项目,yarn add react-router-dom                             
+
+Day 3
+1.yarn add axios

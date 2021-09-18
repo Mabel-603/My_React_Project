@@ -1,22 +1,34 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
-import {creteDemo1Action} from '../../redux/action_creators/test-action'
+import {Redirect} from 'react-router-dom'
+import {creteDeleteUserInfoAction} from '../../redux/action_creators/login-action'
 
- class Admin extends Component{
+class Admin extends Component{
   componentDidMount(){
     console.log(this.props);
   }
+logout =()=>{
+  this.props.deleteUserInfo();//不用重定向,页面会根据isLogin自动渲染
+}
     render(){
-      return(
-      <div>
-        Admin
-      </div>
-      )
+      let {isLogin,user} = this.props.userInfo;
+      if(!isLogin){
+      return <Redirect  to='/login'/>
+      }else{
+        return(
+          <div>
+            我是Admin组件,你的名字是{user.username}
+            <button onClick={this.logout}> 退出登录 </button>
+          </div>
+          )
+      } 
+      
     }
 }
+//从redux中获取状态和操作状态的方法
 export default  connect(
-state => ({peiqi:state.test}),
+state => ({userInfo:state.userInfo}),
 {
-demo1:creteDemo1Action
+  deleteUserInfo:creteDeleteUserInfoAction
 }
 )(Admin)

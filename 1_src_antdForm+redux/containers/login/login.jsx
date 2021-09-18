@@ -5,6 +5,7 @@ import "./css/login.less"
 import logo from './imgs/logo.jpg'
 import { connect } from 'react-redux';
 import {creteDemo1Action,creteDemo2Action} from '../../redux/action_creators/test-action'
+
 class Login extends Component{
 componentDidMount(){
   console.log(this.props);
@@ -37,7 +38,7 @@ componentDidMount(){
       <div className="login">
         <header>
            <img src={logo} alt="logo" />
-           <h1>商品管理系统{this.props.test}</h1>
+           <h1>商品管理系统</h1>
         </header>
         <section>
           <h1>用户登录</h1>
