@@ -5,9 +5,8 @@ import {creteDeleteUserInfoAction} from '../../redux/action_creators/login-actio
 
 @ connect(
   state => ({userInfo:state.userInfo}),
-  {
-    deleteUserInfo:creteDeleteUserInfoAction
-  })
+  {deleteUserInfo:creteDeleteUserInfoAction}
+  )
 
 class Admin extends Component{
   componentDidMount(){
@@ -18,12 +17,13 @@ logout =()=>{
 }
     render(){
       let {isLogin,user} = this.props.userInfo;
-      if(!isLogin){
-      return <Redirect  to='/login'/>
-      }else{
+      //判断用户是否登录,
+      if(!isLogin)  return <Redirect  to='/login'/>
+      else{
         return(
           <div>
             我是Admin组件,你的名字是{user.username}
+            <button onClick={this.logout}> 退出登录 </button>
             <button onClick={this.logout}> 退出登录 </button>
           </div>
           )

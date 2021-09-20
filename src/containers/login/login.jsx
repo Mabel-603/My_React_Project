@@ -31,9 +31,8 @@ componentDidMount(){
    this.props.saveUserInfo(data)
     //2.跳转admin页面
    this.props.history.replace('/admin')
-  }else{
-    message.warning(msg,1)//表示提示1s后消失
-  }
+  }else message.warning(msg,1)//表示提示1s后消失
+  
 };
 
  onFinishFailed = (errorInfo) => {
