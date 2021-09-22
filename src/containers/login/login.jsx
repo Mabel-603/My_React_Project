@@ -16,7 +16,7 @@ const {Item} = Form;
   )
 class Login extends Component{
 componentDidMount(){
-  console.log(this.props);
+  // console.log(this.props);
 }
  onFinish = async (values) => {
   //values的值是:{username:XXX,password:yyy}
@@ -55,6 +55,7 @@ pwdValidator=(rule, value)=>{
   }
     render(){
      const {isLogin} = this.props;
+     const spacing = '\xa0\xa0\xa0\xa0'
      if(isLogin){
        return <Redirect to='/admin'/>
      }
@@ -89,7 +90,7 @@ pwdValidator=(rule, value)=>{
         <Input prefix={<UserOutlined style={{color:'rgba(0,0,0,.5)'}}/>}/> 
       </Item>
 
-    <Item  label={'密'+'\xa0\xa0\xa0\xa0'+'码'} name="password" rules={[
+    <Item   label={`密${spacing}码`} name="password" rules={[
         {validator:this.pwdValidator,required:true}
     ]}>
         <Input.Password prefix={<LockOutlined style={{color:'rgba(0,0,0,.5)'}}/>}/>
