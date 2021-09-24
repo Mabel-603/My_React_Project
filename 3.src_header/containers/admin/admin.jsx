@@ -1,11 +1,10 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
 import {Redirect,Route,Switch} from 'react-router-dom'
-import {Layout} from 'antd'
 import {creteDeleteUserInfoAction} from '../../redux/action_creators/login-action'
+import {Layout} from 'antd'
 import Header from './header/header'
 import './css/admin.less'
-import LeftNav from './left_nav/left_nav'
 import Home from '../../components/home'
 import Catagory from '../category/catagory'
 import Product from '../product/product'
@@ -37,9 +36,7 @@ logout =()=>{
       else{
         return(
           <Layout className="admin">
-            <Sider className="sider">
-              <LeftNav/>
-            </Sider>
+            <Sider className="sider">Sider</Sider>
             <Layout>
               <Header className="header">Header</Header>
               <Content className="content">
@@ -49,9 +46,9 @@ logout =()=>{
                  <Route path="/admin/prod_about/product" component={Product} />
                  <Route path="/admin/user" component={User} />
                  <Route path="/admin/role" component={Role} />
-                 <Route path="/admin/charts/bar" component={Bar} />
-                 <Route path="/admin/charts/line" component={Line} />
-                 <Route path="/admin/charts/pie" component={Pie} />
+                 <Route path="/admin/bar" component={Bar} />
+                 <Route path="/admin/line" component={Line} />
+                 <Route path="/admin/pie" component={Pie} />
                  <Redirect to="/admin/home"/>
                </Switch>
               </Content>

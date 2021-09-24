@@ -7,6 +7,4 @@ export const BASE_URL = ''
 // export const CITY_ID = "320100"
 //百度天气接口的key
 // export const WEATHER_AK = "GQjbKSd2MX5AXiw2VApjuTL0sfVV7Hue" 
-
- //表格每页展示条数
-export const PAGE_SIZE = 5
+ 

@@ -4,18 +4,14 @@ import {FullscreenOutlined,FullscreenExitOutlined} from '@ant-design/icons'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import screenfull from 'screenfull'
-import dayjs from 'dayjs'
-import menuList from '../../../config/menu_config'
 import {creteDeleteUserInfoAction} from '../../../redux/action_creators/login-action'
+import dayjs from 'dayjs'
 import './header.less'
 
 const {confirm} = Modal;
 
 @connect(
-  state=>({
-    userInfo:state.userInfo,
-    title:state.title
-  }),
+  state=>({userInfo:state.userInfo}),
   {deleteUser:creteDeleteUserInfoAction}
 )
 @withRouter
@@ -23,7 +19,6 @@ class Header extends Component{
   state={
     isFull:false,
     date:dayjs().format('YYYY年 MM月DD日 HH:mm:ss'),
-    title:''
     // weatherInfo:{}
   }
   // getWeather = ()=>{
@@ -39,7 +34,6 @@ class Header extends Component{
    this.timeID = setInterval(() => {
      this.setState({date:dayjs().format('YYYY年 MM月DD日 HH:mm:ss')})
    }, 1000);
-   this.getTitle();
   }
  componentWillUnmount(){
   clearInterval(this.timeID)
@@ -61,21 +55,6 @@ class Header extends Component{
       });
     
   }
-  getTitle = ()=>{
-    let pathKey = this.props.location.pathname.split('/').reverse()[0]
-    let title=''
-    menuList.forEach((item)=>{
-     if(item.children instanceof Array){
-      let tmp =  item.children.find((citem)=>{
-        return citem.key === pathKey
-       })
-      if(tmp) title=tmp.title;
-     }else{
-       if(item.key === pathKey) title = item.title;
-     }
-    })
-    this.setState({title})
-  }
   render(){
     let {isFull} = this.state;
     let {user} = this.props.userInfo;
@@ -91,7 +70,7 @@ class Header extends Component{
       </div>
       <div className="header-bottom">
         <div className="header-bottom-left">
-           {this.props.title || this.state.title}
+           {this.props.location.pathname}
         </div>
         <div className="header-bottom-right">
           {this.state.date}

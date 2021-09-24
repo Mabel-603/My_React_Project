@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import {Redirect} from 'react-router-dom'
 import {creteSaveUserInfoAction} from '../../redux/action_creators/login-action'
 import {reqLogin} from '../../api/index.js'
-import logo from '../../static/imgs/logo.png'
+import logo from './imgs/logo.jpg'
 import "./css/login.less"
 
 const {Item} = Form;
@@ -57,7 +57,7 @@ pwdValidator=(rule, value)=>{
      const {isLogin} = this.props;
      const spacing = '\xa0\xa0\xa0\xa0'
      if(isLogin){
-       return <Redirect to='/admin/home'/>
+       return <Redirect to='/admin'/>
      }
       return(
       <div className="login">
@@ -90,7 +90,7 @@ pwdValidator=(rule, value)=>{
         <Input prefix={<UserOutlined style={{color:'rgba(0,0,0,.5)'}}/>}/> 
       </Item>
 
-      <Item label={`密${spacing}码`} name="password" rules={[
+    <Item   label={`密${spacing}码`} name="password" rules={[
         {validator:this.pwdValidator,required:true}
     ]}>
         <Input.Password prefix={<LockOutlined style={{color:'rgba(0,0,0,.5)'}}/>}/>
