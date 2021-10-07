@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {Card,Button,Form,Input,Select, message} from 'antd'
 import {ArrowLeftOutlined} from '@ant-design/icons';
-import {reqCatagoryList,reqAddProduct} from '../../api'
+import {reqCatagoryList,reqAddProduct,reqProdById,reqUpdateProduct} from '../../api'
 import PicturesWall from'./picture_wall'
 import RichTextEditor from './rich_text_editor'
 
@@ -12,13 +12,13 @@ const {Option} = Select
 @connect(
   state=>({
     categoryList:state.categoryList,
-    productList:state.productList,
+    productList:state.productList
   })
 )
  class AddUpdate extends Component {
-  
+  formRef = React.createRef()
    state = {
-    categoryList:[],
+    categoryList:[],//商品分类列表
     operaType:'add',
     categoryId:'',
     name:'',
@@ -30,23 +30,53 @@ const {Option} = Select
 
    }
   componentDidMount(){
-  //   const {setFieldsValue} = this.props.form;
-  //   // 这里就能实现指定表单设置value
-	//   setTimeout(()=>{
-	// 	setFieldsValue({"name": "Tom"})
-	//  },500)
-    console.log(this.props);
     const {categoryList,productList} = this.props
     const {id} = this.props.match.params
-    if(id) this.setState({operaType:'update'})
-    if(productList.length){
-      let result = productList.find(item=>{
-        return item._id === id
+    setTimeout(() => {
+      this.formRef.current.setFieldsValue({//
+        name:this.state.name,
+        desc:this.state.desc,
+        price:this.state.price,
+        categoryId:this.state.categoryId,
       })
-      this.setState({...result})
+    }, 100);
+    if(categoryList.length)this.setState({categoryList})
+    else this.getCategoryList() //发请求获取商品分类列表
+    console.log(this.state.categoryList);
+    if(id){//只有点击修改,地址栏才会带id
+      this.setState({operaType:'update'})
+      if(productList.length){ //这部分做的是点击修改,商品数据回显
+        let result = productList.find(item=>{
+          return item._id === id
+        })
+        if(result){
+          this.setState({...result})//此处没有放商品的图片,富文本内容,后续需要放 
+          console.log(result);
+          this.refs.pictureWall.setFileList(result.imgs)
+          this.refs.richTextEditor.setRichText(result.detail)
+        }
+      }
+      else this.getProductList(id)
+   
+  }
+}
+  getProductList = async(id)=>{
+    let result = await reqProdById(id)
+    const {data,status} = result;
+    if(status === 0) {
+      this.setState({...data})
+      setTimeout(() => {//(self)执行此函数时上面的定时器已经执行完毕,因此需要重新设置
+        this.formRef.current.setFieldsValue({//
+          name:this.state.name,
+          desc:this.state.desc,
+          price:this.state.price,
+          categoryId:this.state.categoryId,
+        })
+      }, 100);
+      this.refs.pictureWall.setFileList(data.imgs)
+      this.refs.richTextEditor.setRichText(data.detail)
     }
-    if(categoryList.length) this.setState({categoryList})
-    else this.getCategoryList()
+    
   }
   getCategoryList = async()=>{
    let result = await reqCatagoryList()
@@ -55,32 +85,27 @@ const {Option} = Select
    else message.error(msg)
 }
   onFinish =async(values)=>{
+      let {operaType,_id} = this.state
        //从上传组件中获取已经上传的图片数组
       let imgs = this.refs.pictureWall.getImgArr()
       //从富文本组件中获取用户输入的文字转换为富文本的字符串
       let detail = this.refs.richTextEditor.getRichText()
-      console.log({...values,imgs,detail});
-      let result = await reqAddProduct({...values,imgs,detail})
-      console.log(result);
+      let result
+      if(operaType==='add')  result = await reqAddProduct({...values,imgs,detail})//新增商品
+      else  result = await reqUpdateProduct({...values,imgs,detail,_id}) //更新商品
       const {status,msg} = result
       if(status === 0) {
         message.success('操作成功')
         this.props.history.replace('/admin/prod_about/product')
       }
       else message.error(msg)
-    
   
   }
-  // onFinish = (values)=>{
-  //   console.log(values);
-  //   }
   onFinishFailed=()=>{
 
   }
   render() {
     const {operaType} = this.state
-   const {name,desc,price} = this.state
-   console.log(name,desc,price);
     return (
       <Card title={
         <div>
@@ -94,11 +119,7 @@ const {Option} = Select
         wrapperCol={{md:7}}
         onFinish={this.onFinish}
         onFinishFailed={this.onFinishFailed}
-        // initialValues={{
-        //   categoryId:'',
-        //   name:name,
-        //   desc:desc
-        // }}
+        ref={this.formRef}
         > 
          <Item label='商品名称' name='name'  rules={[{required: true, message: '请输入商品名称!'}]}>
            <Input placeholder="商品名称" ></Input>

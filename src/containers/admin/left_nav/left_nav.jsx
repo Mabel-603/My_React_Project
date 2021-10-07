@@ -9,18 +9,31 @@ import { connect } from 'react-redux';
 
 const { SubMenu,Item } = Menu;
 @connect(
-  state=>({}),
-  {
-    saveTitle:createSaveTitleAction
-  }
+  state=>({
+   menus:state.userInfo.user.role.menus,
+   username:state.userInfo.user.username
+  }),
+  {saveTitle:createSaveTitleAction}
 )
 @withRouter
  class LeftNav extends Component {
    componentDidMount(){
     //  console.log(this.props.location.pathname);
    }
-  createMenu = (target)=>{
+   hasAuth = (item)=>{
+     //获取当前用户可以看到的菜单的数组
+     const {menus,username} = this.props  
+     if(username === 'admin') return true
+     else if(!item.children){
+       return menus.find((item2)=>{return item2 === item.key})
+     }else if(item.children){
+       return item.children.some((item3)=>{return menus.indexOf(item3.key) !== -1})
+     }
+   }
+
+  createMenu = (target)=>{//用于创建菜单的函数
     return target.map((item)=>{
+    if(this.hasAuth(item)){//item可能是menulist中没有孩子的菜单,也可能是有孩子的菜单中的孩子
       if(!item.children){
         return (
          <Item key={item.key} icon={item.icon} onClick={()=>{this.props.saveTitle(item.title)}}>
@@ -36,6 +49,7 @@ const { SubMenu,Item } = Menu;
        </SubMenu>
         )
       }
+    }  
      })}
   render() {
     return (

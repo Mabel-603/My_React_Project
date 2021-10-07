@@ -50,7 +50,6 @@ getCatagoryList = async()=>{
  //用于展示弹窗--作为修改
  showUpdate = (item) => {
   const {_id,name} = item;//获取当前要修改分类的id、name
-  console.log(item);
   this.setState({
     modalCurrentValue:name,//当前名字存入state
     modalCurrentId:_id,//当前操作的id存入stat
@@ -77,7 +76,6 @@ getCatagoryList = async()=>{
  toUpdate = async(categoryObj)=>{
  let result =await reqUpdateCatagory(categoryObj)
  const {status} = result;
- console.log(result);
  if(status === 0){
    message.success('更新分类名成功',1)
    this.getCatagoryList()//重新请求商品列表
@@ -89,6 +87,7 @@ getCatagoryList = async()=>{
    this.formRef.current.resetFields();//重置表单
  }
 }
+ //点击弹窗ok按钮的回调
  handleOk = () => {
    const {operType} = this.state;
   this.formRef.current.validateFields().then(async(values,err)=>{
@@ -98,9 +97,9 @@ getCatagoryList = async()=>{
     }
     if(operType === 'add') this.toAdd(values);
     if(operType === 'update') {
-      const catagoryId = this.state.modalCurrentId;
+      const categoryId = this.state.modalCurrentId;
       const categoryName = values.categoryName;
-      const categoryObj = {catagoryId,categoryName}
+      const categoryObj = {categoryId,categoryName}
       this.toUpdate(categoryObj)
     };
   })

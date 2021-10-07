@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
-import {Card,Button,Select,Input,Table, message} from 'antd';
+import {Card,Button,Select,Input,Table,message} from 'antd';
 import {PlusCircleOutlined,SearchOutlined} from '@ant-design/icons';
 import {reqProductList,reqUpdateProdStatus,reqSearchProduct} from '../../api'
 import {createSaveProductAction} from '../../redux/action_creators/product_action'
@@ -31,7 +31,6 @@ state =>({}),
        result = await reqSearchProduct(number,PAGE_SIZE,searchType,keyword)
     }
     else  result = await reqProductList(number,PAGE_SIZE);
-    console.log(result);
     const {status,data} = result
     if(status === 0){
      this.setState({
@@ -68,6 +67,7 @@ state =>({}),
 
   render(){
     const dataSource = this.state.productList;
+    console.log(dataSource)
     
     const columns = [
       {

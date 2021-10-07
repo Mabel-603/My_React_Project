@@ -32,6 +32,7 @@ state=>({
       if(result){
         this.categoryId = result.categoryId
         if(result) this.setState({...result})
+        console.log(result);
       }
     }
     else this.getProdById(id)
@@ -94,7 +95,7 @@ state=>({
              <span className="prod-title">商品图片：</span>
              {
                this.state.imgs.map((item,index)=>{
-                 return <img key={index} src={`/upload/`+item} alt="商品图片"/>
+                 return <img key={index} src={`/upload/`+item} alt="商品图片" style={{width:'1 00px'}}/>
                })
              }
            </Item>

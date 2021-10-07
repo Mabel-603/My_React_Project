@@ -101,7 +101,7 @@ pwdValidator=(rule, value)=>{
       </Item>
 
       <Item wrapperCol={{offset: 8,span: 16,}}>
-        <Button type="primary"  >
+        <Button type="primary" htmlType="submit" >
           登录
         </Button>
       </Item>
